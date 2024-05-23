@@ -1,10 +1,10 @@
 package com.example.backend.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 
 @Entity
-public class Nonprofit {
+public class NonProfit {
     @Id
     private String email;
     private String name;

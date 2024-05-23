@@ -1,34 +1,33 @@
 package com.example.backend.service;
 
-import com.example.backend.model.Nonprofit;
+import com.example.backend.model.NonProfit;
 import com.example.backend.model.SentEmail;
+import com.example.backend.repository.SentEmailRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class EmailService {
 
-    private final List<SentEmail> sentEmails = new ArrayList<>();
+    @Autowired
+    private SentEmailRepository sentEmailRepository;
 
-    public void sendEmailToNonprofits(List<Nonprofit> nonprofits) {
-        String subject = "Sending money to nonprofits";
-        for (Nonprofit nonprofit : nonprofits) {
+    public void sendEmailToNonprofits(List<NonProfit> nonprofits) {
+        String subject = "Sending money to nonprofit organisation: ";
+        for (NonProfit nonprofit : nonprofits) {
             String recipientEmail = nonprofit.getEmail();
-            System.out.println("Sending email to " + recipientEmail + ": " + subject);
+            String recipientName = nonprofit.getName();
+            System.out.println("Sending email to " + recipientEmail + ": " + subject + recipientName);
 
             SentEmail sentEmail = new SentEmail();
             sentEmail.setRecipientEmail(recipientEmail);
             sentEmail.setSubject(subject);
             sentEmail.setSentDateTime(LocalDateTime.now());
-            sentEmails.add(sentEmail);
+            sentEmailRepository.save(sentEmail);
         }
-    }
-
-    public List<SentEmail> getAllSentEmails() {
-        return sentEmails;
     }
 }

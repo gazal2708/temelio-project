@@ -1,34 +1,42 @@
 package com.example.backend.controller;
 
-import com.example.backend.model.Nonprofit;
 import com.example.backend.service.EmailService;
-import com.example.backend.repository.NonprofitRepository;
+import com.example.backend.service.NonProfitService;
+import com.example.backend.model.NonProfit;
+import com.example.backend.repository.NonProfitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/nonprofits")
-public class NonprofitController {
+public class NonProfitController {
     @Autowired
-    private NonprofitRepository nonprofitRepository;
+    private NonProfitRepository nonprofitRepository;
 
     @Autowired
     private EmailService emailService;
 
+    @Autowired
+    private NonProfitService nonProfitService;
+
     @GetMapping
-    public List<Nonprofit> getAllNonprofits() {
+    public List<NonProfit> getAllNonprofits() {
         return nonprofitRepository.findAll();
     }
 
-    @PostMapping
-    public void createNonprofit(@RequestBody Nonprofit nonprofit) {
-        nonprofitRepository.save(nonprofit);
+    @PostMapping(value = "")
+    public void createNonprofit(@RequestBody NonProfit nonprofit) {
+        nonProfitService.createNonprofit(nonprofit);
     }
 
     @PostMapping("/send-email")
-    public void sendEmailToNonprofits(@RequestBody List<Nonprofit> nonprofits) {
+    public void sendEmailToNonprofits(@RequestBody List<NonProfit> nonprofits) {
         emailService.sendEmailToNonprofits(nonprofits);
     }
 }

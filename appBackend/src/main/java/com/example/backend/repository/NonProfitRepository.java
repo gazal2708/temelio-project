@@ -1,7 +1,7 @@
 package com.example.backend.repository;
-
-import com.example.backend.model.Nonprofit;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface NonprofitRepository extends JpaRepository<Nonprofit, String> {
+import com.example.backend.model.NonProfit;
+
+public interface NonProfitRepository extends JpaRepository<NonProfit, String> {
 }
